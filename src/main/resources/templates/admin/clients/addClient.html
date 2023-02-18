@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <script src=https://code.jquery.com/jquery-3.6.0.min.js></script>
+    <script src=https://code.jquery.com/jquery-3.6.0.js></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Създаване на Клиенти</title>
+    <style>
+body, html {
+  margin: 100;
+  padding: 100;
+  overflow: auto;
+<!--  height: 100%;-->
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-image {
+  /* The image used */
+  background-image: url("/img/body-background.jpg");
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 90%;
+  height: 100vh;
+
+}
+
+/* Add styles to the form container */
+.container {
+  position: absolute;
+  left: 0;
+  margin: 20px;
+  max-width: 300px;
+  padding: 16px;
+  background-color: white;
+
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  text-align: center;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+<!--/* Set a style for the submit button */-->
+<!--.btn {-->
+<!--  background-color: #04AA6D;-->
+<!--  color: white;-->
+<!--  padding: 16px 20px;-->
+<!--  border: none;-->
+<!--  cursor: pointer;-->
+<!--  width: 100%;-->
+<!--  opacity: 0.9;-->
+<!--}-->
+
+.btn:hover {
+  opacity: 1;
+}
+
+
+
+
+
+    </style>
+
+</head>
+<body>
+
+<img src="/img/bannerAW.png" class="img-fluid sticky-top" style="width: 100%; height: 250px;">
+
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" th:href="@{/}" style="font-size: 13px">
+        <img src="/img/brandAW.png" width="30" height="30" alt="">
+        Management®
+    </a>
+    <ul class="navbar-nav mx-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+               aria-expanded="false">Служители</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" th:href="@{/admin/employees/list}">Списък</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/employees/add}">Добавяне</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+               aria-expanded="false">Клиенти</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" th:href="@{/admin/clients/list}">Списък</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/clients/add}">Добавяне</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+               aria-expanded="false">Админ</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="http://localhost:8080/users">Списък</a></li>
+                <li><a class="dropdown-item" href="/users/add">Добавяне</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <p style="color:white">Logged in:
+                <span th:text="${whoIsLoggedIn}" style="color:green">
+                    </span>
+                <span>-
+                        <span th:text="${role}" style="color:white;font-size: 9px"></span>
+                    </span>
+            </p>
+        </li>
+        <li class="nav-item"><p style="color:black"> - </p></li>
+        <li class="nav-item"><p></p></li>
+        <li class="nav-item">
+            <form th:action="@{/logout}" method="POST">
+                <button type="submit" class="btn btn-danger" style="padding: 1px 3px;background-color: #04AA6D;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;" value="Logout">Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+<div class="bg-image">
+
+    <!--  CONTAINER     -->
+    <div class="container" style="max-width: 400px; text-align: center">
+        <h2>Създаване на Клиент</h2>
+        <div class="container" align="center">
+            <form style="width:500px;" action="#" th:action="@{/admin/clients/submit}" method="POST"
+                  th:object="${client}">
+                <input type="hidden" th:field="*{id}">
+                <div class="form-group">
+                    <label for="clientName">Име на Клиента:</label>
+                    <input type="text" th:field="*{clientName}" class="form-control" id="clientName"
+                           placeholder="Въведете Име на Клиента" minlength="2" maxlength="50" required>
+                    <p th:if="${#fields.hasErrors('clientName')}" th:errors="*{clientName}">Моля, използвайте
+                        Латиница</p>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="projectName">Име на Проекта:</label>
+                    <input type="text" th:field="*{projectName}" class="form-control" id="projectName" placeholder="Въведете Име на Проекта" minlength="4" maxlength="50" required>
+                    <p th:if="${#fields.hasErrors('projectName')}" th:errors="*{projectName}">Моля, използвайте Кирилица</p>
+                </div>
+                <br>
+                <div class="form-group">
+                    <script type="text/javascript">
+            var dateInput = document.getElementById('expirationDate');
+
+// Listen for the input event to detect when the user selects a date
+dateInput.addEventListener('input', function() {
+  // Get the selected date value as a Date object
+  var selectedDate = new Date(dateInput.valueAsNumber);
+
+  // Format the date as dd.MM.yyyy
+  var formattedDate = selectedDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '.');
+
+  // Set the formatted date as the value of the input
+  dateInput.value = formattedDate;
+});
+
+                    </script>
+                    <label for="expirationDate">Дата на изтичане на договора:</label><br>
+                    <input type="date" th:field="*{expirationDate}" id="expirationDate" class="form-control" required
+                           placeholder="Въведете дата на изтичане на договора">
+                    <p th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}">Error</p>
+                </div>
+                <br>
+                <!--    <div class="form-group">-->
+                <!--      <label for="role">Тип:</label><br>-->
+                <!--      <select style="text-align:center;" th:field="*{role}" id="role" class="form-control">-->
+                <!--        <option-->
+                <!--                th:each="role : ${roleTypes}" th:value="${role}" th:text="${role.label}">-->
+                <!--        </option>-->
+                <!--      </select>-->
+                <!--    </div>-->
+                <!--        <div class="form-group">-->
+                <!--          <p>Активен:</p>-->
+                <!--          <input class="form-check-input" type="radio" id="yes" th:field="*{enabled}" value="1" required checked>-->
+                <!--          <label for="yes">ДА</label>-->
+                <!--          <input class="form-check-input" type="radio" id="no" th:field="*{enabled}" value="0" required>-->
+                <!--          <label for="no">НЕ</label>-->
+                <!--        </div>-->
+                <!--        <br>-->
+                <button type="submit" class="btn btn-primary">Създай</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
