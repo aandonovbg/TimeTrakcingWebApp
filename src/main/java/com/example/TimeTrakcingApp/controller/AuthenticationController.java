@@ -1,6 +1,10 @@
 package com.example.TimeTrakcingApp.controller;
 
+import com.example.TimeTrakcingApp.entity.DailyProtocol;
+import com.example.TimeTrakcingApp.repository.ClientRepository;
+import com.example.TimeTrakcingApp.repository.DailyProtocolRepository;
 import com.example.TimeTrakcingApp.services.AuthenticationService;
+import com.example.TimeTrakcingApp.services.DateConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +25,12 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    private DateConversionService dateConversionService;
+    @Autowired
+    private DailyProtocolRepository dailyProtocolRepository;
 
     @GetMapping("/login")
     public String login() {
@@ -35,8 +45,16 @@ public class AuthenticationController {
 
     @GetMapping("")
     public String home(Model model) {
+
         model.addAttribute("whoIsLoggedIn", authenticationService.whoIsLoggedIn());
         model.addAttribute("role", authenticationService.getLoggedInRole());
+        if (authenticationService.getLoggedInRole().equals("EMPLOYEE")) {
+            model.addAttribute("allClients", clientRepository.findAll());
+            model.addAttribute("dateNow", dateConversionService.getCurrentDateFormatted());
+            model.addAttribute("allDailyProtocols", dailyProtocolRepository.getProtocolByProtocolDate(dateConversionService.getCurrentDateFormatted()));
+
+            return "/protocol/list";
+        }
         return "/home";
     }
 

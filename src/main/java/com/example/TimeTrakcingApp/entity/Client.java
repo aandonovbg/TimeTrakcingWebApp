@@ -25,15 +25,15 @@ public class Client {
     private Long id;
     @NotBlank
     @Size(min =2,max =50)
-    //@Pattern(regexp = "[а-яА-Я]+")
+    @Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d.,!?()-_]+")
     private String clientName;
     @NotBlank
     @Size(min =2,max =200)
-    @Pattern(regexp = "[а-яА-Я]+")
+    @Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d.,!?()-_]+")
     private String projectName;
-    @NotNull
+    @NotBlank
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     @Column(name = "expiration_date")
-    private LocalDate expirationDate;
+    private String expirationDate;
 
 }

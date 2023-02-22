@@ -77,8 +77,6 @@ input[type=text]:focus, input[type=password]:focus {
   opacity: 1;
 }
 
-
-
     </style>
 
 </head>
@@ -98,6 +96,7 @@ input[type=text]:focus, input[type=password]:focus {
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" th:href="@{/admin/employees/list}">Списък</a></li>
                     <li><a class="dropdown-item" th:href="@{/admin/employees/add}">Добавяне</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/employees/stats}">Статистика</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -112,8 +111,8 @@ input[type=text]:focus, input[type=password]:focus {
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                    aria-expanded="false">Админ</a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="http://localhost:8080/users">Списък</a></li>
-                    <li><a class="dropdown-item" href="/users/add">Добавяне</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/admins/list}">Списък</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admin/admins/add}">Добавяне</a></li>
                 </ul>
             </li>
         </ul>
@@ -139,78 +138,15 @@ input[type=text]:focus, input[type=password]:focus {
     <div class="bg-image">
         <div class="container" style="max-width: 400px; text-align: center">
             <h2>Добре дошли в Админ Панелът.</h2>
-            <ul>Тук можете да администрирате Клиенти:
-                <li> Да въвеждате нови Клиенти;</li>
-                <li> Да обновявате и изтривате съществуващи Клиенти;</li>
-                <li> Да създавате и редактирате Служителите;</li>
-                <li> Да виждате статистика за Служителите;</li>
+            <ul>Тук можете да:
+                <li style="text-align:left"> въвеждате нови Клиенти;</li>
+                <li style="text-align:left"> обновявате и изтривате съществуващи Клиенти;</li>
+                <li style="text-align:left"> създавате и редактирате Служителите;</li>
+                <li style="text-align:left"> изкарвате статистика за Служителите;</li>
             </ul>
         </div>
     </div>
 </div>
 <!--    ADMIN end  -->
-<!--    EMPLOYEE start  -->
-<div th:unless="${role=='ADMIN'}">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand " th:href="@{/}" style="font-size: 13px">
-            <img src="../img/brandAW.png" width="30" height="30" alt="">
-            Management®
-        </a>
-        <ul class="navbar-nav mx-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-expanded="false">Курорти</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="http://localhost:8080/resorts">Списък</a></li>
-                    <li><a class="dropdown-item" href="/resorts/add">Добавяне</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-expanded="false">Хотели</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="http://localhost:8080/hotels">Списък</a></li>
-                    <li><a class="dropdown-item" href="/hotels/add">Добавяне</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-expanded="false">Админ</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="http://localhost:8080/users">Списък</a></li>
-                    <li><a class="dropdown-item" href="/users/add">Добавяне</a></li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><p style="color:white">Logged in:
-                <span th:text="${whoIsLoggedIn}" style="color:green"></span>
-                <span>-
-                        <span th:text="${role}" style="color:white;font-size: 9px"></span>
-                    </span>
-            </p>
-            </li>
-            <li class="nav-item"><p style="color:black"> - </p></li>
-            <li class="nav-item"><p></p></li>
-            <li class="nav-item">
-                <form th:action="@{/logout}" method="POST">
-                    <button type="submit" class="btn btn-danger" style="padding: 1px 3px" value="Logout">Logout</button>
-                </form>
-            </li>
-        </ul>
-    </nav>
-    <div class="bg-image">
-        <div class="container" style="max-width: 400px; text-align: center">
-
-            <h2>Добре дошли в Панелът за Служители.</h2>
-            <ul>Тук можете:
-                <li> Да създавате протокол за деня в който да пише за кои клиенти сте работил днес;</li>
-                <li> По колко време на клиент сте работил;</li>
-                <li> Кратко описание на свършената работа;</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!--    EMPLOYEE end  -->
 </body>
 </html>

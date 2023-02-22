@@ -1,5 +1,6 @@
-package com.example.TimeTrakcingApp.authentication;
+package com.example.TimeTrakcingApp.config;
 
+import com.example.TimeTrakcingApp.services.UserDetailsServiceImplementation;
 import lombok.Builder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,9 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .mvcMatchers("/login", "/img/**").permitAll()
-                .mvcMatchers("/resorts", "/hotels", "/")
-                .hasAnyAuthority("ADMIN", "EMPLOYEE")
-                .mvcMatchers("/employee/**").hasAuthority("EMPLOYEE")
+                .mvcMatchers( "/")
+                .authenticated()
+                .mvcMatchers("/protocol/**").hasAuthority("EMPLOYEE")
                 .anyRequest().hasAuthority("ADMIN")
                 .and().formLogin().loginPage("/login").loginProcessingUrl("/login")
                 .permitAll()

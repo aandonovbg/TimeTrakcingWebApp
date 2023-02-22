@@ -1,5 +1,6 @@
 package com.example.TimeTrakcingApp.entity;
 
+import com.example.TimeTrakcingApp.services.DateConversionService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,9 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,32 +23,27 @@ public class DailyProtocol {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
-    private LocalDate protocolDate;
 
-    @ManyToMany
-    @JoinTable(
-            name = "protocol_client",
-            joinColumns = @JoinColumn(name = "protocol_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id"))
-    private List<Client> client;
-    @ManyToOne
-    @JoinColumn(name = "employee_id",referencedColumnName = "id")
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    private String protocolDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id",referencedColumnName = "id",nullable = false)
     private Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
     @NotNull
+    @Min(1)
+    @Max(value = 8, message = "Времевият диапазон е между 1 и 8 часа включително")
     @Column(name = "time_worked")
     private int timeWorked;
+
     @NotBlank
     @Size(min = 2 , max =200)
+    @Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d.,!?()-_]+")
     private String description;
 
-
-
-
-
-    @PrePersist
-    public void prePersist() {
-        LocalDate now=LocalDate.now();
-        protocolDate = now;
-    }
 }

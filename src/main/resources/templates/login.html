@@ -42,7 +42,8 @@ background-size: 100% 100%;
 /* Add styles to the form container */
 .container {
   position: absolute;
-  left: 0;
+  left: 200px;
+  top:10px;
   margin: 20px;
   max-width: 300px;
   padding: 16px;
@@ -56,6 +57,7 @@ input[type=text], input[type=password] {
   margin: 5px 0 22px 0;
   border: none;
   background: #f1f1f1;
+  text-align: center;
 }
 
 input[type=text]:focus, input[type=password]:focus {
@@ -81,6 +83,7 @@ input[type=text]:focus, input[type=password]:focus {
 
 
 
+
     </style>
 
 </head>
@@ -95,7 +98,7 @@ input[type=text]:focus, input[type=password]:focus {
 </nav>
 
 <div class="bg-image">
-    <form action="#" th:action="@{/login}" method="POST" class="container">
+    <form style="text-align: center"action="#" th:action="@{/login}" method="POST" class="container">
         <h4>Моля влезте в профилът си</h4>
 
         <label for="username"><b>Потребител</b></label>
@@ -107,10 +110,6 @@ input[type=text]:focus, input[type=password]:focus {
 
         <button type="submit" class="btn">Login</button>
         <br>
-        <a class="float-right"
-           href="#"
-           type="submit">Register
-        </a>
     </form>
 </div>
 </body>
