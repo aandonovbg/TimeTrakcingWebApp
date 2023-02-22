@@ -12,7 +12,7 @@
             crossorigin="anonymous"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Списък на Служители</title>
+    <title>Списък със Клиенти</title>
 
     <style>
 body, html {
@@ -34,7 +34,7 @@ body, html {
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 100% 90%;
+  background-size: 100% 100%;
   height: 100vh;
 
 }
@@ -44,8 +44,8 @@ body, html {
   position: absolute;
   left: 0;
   margin: 20px;
-  max-width: 300px;
-  padding: 16px;
+<!--  width: 500px;-->
+<!--  padding: 16px;-->
   background-color: white;
 }
 
@@ -79,10 +79,6 @@ input[type=text]:focus, input[type=password]:focus {
 }
 
 
-
-
-
-
     </style>
 
 </head>
@@ -90,7 +86,7 @@ input[type=text]:focus, input[type=password]:focus {
 <img src="/img/bannerAW.png" class="img-fluid" style="width: 100%; height: 250px;">
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand "  th:href="@{/}" style="font-size: 13px">
+    <a class="navbar-brand " th:href="@{/}" style="font-size: 13px">
         <img src="/img/brandAW.png" width="30" height="30" alt="">
         Management®
     </a>
@@ -101,6 +97,7 @@ input[type=text]:focus, input[type=password]:focus {
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" th:href="@{/admin/employees/list}">Списък</a></li>
                 <li><a class="dropdown-item" th:href="@{/admin/employees/add}">Добавяне</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/employees/stats}">Статистика</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">
@@ -115,8 +112,8 @@ input[type=text]:focus, input[type=password]:focus {
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                aria-expanded="false">Админ</a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="http://localhost:8080/users">Списък</a></li>
-                <li><a class="dropdown-item" href="/users/add">Добавяне</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/admins/list}">Списък</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/admins/add}">Добавяне</a></li>
             </ul>
         </li>
     </ul>
@@ -147,10 +144,10 @@ input[type=text]:focus, input[type=password]:focus {
     </ul>
 </nav>
 <div class="bg-image">
-    <div class="container" style="max-width: 400px; text-align: center">
-        <h2 style="text-align:center">Списък със Служители</h2>
+    <div class="container" style="max-width: 730px; margin: 0px; text-align: center">
+        <h2 style="text-align:center">Списък със Клиенти</h2>
 
-        <a th:href="@{/admin/employees/add}">
+        <a th:href="@{/admin/clients/add}">
             <div class="col-md-12 text-center">
                 <button
                         class="btn btn-primary my-2 my-sm-0">Добави
@@ -158,35 +155,33 @@ input[type=text]:focus, input[type=password]:focus {
             </div>
         </a>
 
-        <table class="table table-striped" style="width:100px; margin:30px auto; ">
+        <table class="table table-striped" style="width:100%; margin:30px auto; table-layout: auto; ">
             <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Потребител</th>
                 <th scope="col">Име</th>
-                <!--                <th scope="col">Парола</th>-->
-                <th scope="col">Статус</th>
+                <th colspan="12" scope="col">Проект</th>
+                <th scope="col">Крайна дата</th>
+                <th colspan="2"scope="col">Операции</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="employee:${allEmployees}">
-                <th style="text-align: center" scope="row" th:text="${employee.id}"></th>
-                <td th:text="${employee.username}"></td>
-                <td th:text="${employee.fullName}"></td>
-                <!--                <td th:text="${employee.password}"></td>-->
-                <td th:if="${employee.enabled}"><span>Активен</span></td>
-                <td th:unless="${employee.enabled}"><span>Деактивиран</span></td>
+            <tr th:each="client:${allClients}">
+                <th style="text-align: center" scope="row" th:text="${client.id}"></th>
+                <td th:text="${client.clientName}"></td>
+                <td colspan="12" th:text="${client.projectName}"></td>
+                <td th:text="${client.expirationDate}"></td>
                 <td>
-                    <a th:href="@{/admin/employees/edit/{employeeId}(employeeId=${employee.id})}">
-                        <button
+                    <a th:href="@{/admin/clients/edit/{clientId}(clientId=${client.id})}">
+                        <button style="padding: 1px 3px"
                                 class="btn btn-outline-success my-2 my-sm-0">Редактирай
                         </button>
                     </a>
                 </td>
                 <td>
                     <a
-                            th:href="@{admin/employees/delete/{employeeId}(employeeId=${employee.id})}"
-                            class="btn btn-outline-danger my-2 my-sm-0" type="submit">Изтрий
+                            th:href="@{/admin/clients/delete/{clientId}(clientId=${client.id})}"
+                            class="btn btn-outline-danger my-2 my-sm-0 " style="padding: 1px 3px" type="submit">Изтрий
                     </a>
 
                 </td>

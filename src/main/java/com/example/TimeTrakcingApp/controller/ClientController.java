@@ -1,19 +1,14 @@
 package com.example.TimeTrakcingApp.controller;
 
 import com.example.TimeTrakcingApp.entity.Client;
-import com.example.TimeTrakcingApp.entity.Employee;
-import com.example.TimeTrakcingApp.enums.Role;
 import com.example.TimeTrakcingApp.repository.ClientRepository;
-import com.example.TimeTrakcingApp.repository.EmployeeRepository;
 import com.example.TimeTrakcingApp.services.AuthenticationService;
+import com.example.TimeTrakcingApp.services.DateConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -26,7 +21,8 @@ public class ClientController {
     private ClientRepository clientRepository;
     @Autowired
     private AuthenticationService authenticationService;
-
+    @Autowired
+    private DateConversionService dateConversionService;
 
     private void getLoggedInInfo(Model model) {
         model.addAttribute("whoIsLoggedIn", authenticationService.whoIsLoggedIn());
@@ -34,58 +30,60 @@ public class ClientController {
     }
 
     @GetMapping("/list")
-    public String listAllEmployees(Model model) {
+    public String listAllClients(Model model) {
         getLoggedInInfo(model);
-        model.addAttribute("allClients",clientRepository.findAll());
+        model.addAttribute("allClients", clientRepository.findAll());
         return "admin/clients/listClients";
     }
 
     @GetMapping("/add")
-    public String addResort(Model model) {
+    public String addClient(Model model) {
         getLoggedInInfo(model);
-        model.addAttribute("client",new Client());
+        model.addAttribute("client", new Client());
         return "admin/clients/addClient";
     }
+
     @PostMapping("/submit")
-    public ModelAndView submitResort(@Valid Client client, BindingResult bindingResult) {
+    public ModelAndView submitClient(@RequestParam("expirationDate") String expirationDate, @Valid Client client, BindingResult bindingResult) {
+        System.out.println(dateConversionService.getExpirationDateFormatted(expirationDate));
         if (bindingResult.hasErrors()) {
             return new ModelAndView("admin/clients/addClient");
-        }else{
-
+        } else {
+            client.setExpirationDate(dateConversionService.getExpirationDateFormatted(expirationDate));
             clientRepository.save(client);
             return new ModelAndView("redirect:/admin/clients/list");
         }
     }
+
     @GetMapping("/edit/{clientId}")
-    public String editUser(@PathVariable(name = "clientId") Long clientId, Model model) {
+    public String editClient(@PathVariable(name = "clientId") Long clientId, Model model) {
         getLoggedInInfo(model);
         Optional<Client> optionalClient = clientRepository.findById(clientId);
 
         if (optionalClient.isPresent()) {
-            model.addAttribute("client",optionalClient.get());
-        }
-        else {
-            model.addAttribute("employee","Error!");
-            model.addAttribute("errorMessage","Employee with id " + clientId +" does not exist.");
+            model.addAttribute("client", optionalClient.get());
+        } else {
+            model.addAttribute("employee", "Error!");
+            model.addAttribute("errorMessage", "Employee with id " + clientId + " does not exist.");
         }
         return "admin/clients/editClient";
     }
+
     @PostMapping("/update")
-    public ModelAndView updateResort(@Valid Client client,BindingResult bindingResult){
+    public ModelAndView updateClient(@Valid Client client, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("admin/clients/editClient/{clientId}");
         }
         clientRepository.save(client);
         return new ModelAndView("redirect:/admin/clients/list");
     }
+
     @GetMapping("delete/{clientId}")
-    public ModelAndView deleteResort(@PathVariable(name = "clientId") Long userId) {
-        Optional<Client> optionalClient = clientRepository.findById(userId);
+    public ModelAndView deleteClient(@PathVariable(name = "clientId") Long clientId) {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
         if (optionalClient.isPresent()) {
             clientRepository.delete(optionalClient.get());
-            return new ModelAndView("redirect:/admin/clients/list");
-        }else {
-            return new ModelAndView("redirect:/admin/clients/list");
         }
+        return new ModelAndView("redirect:/admin/clients/list");
     }
 }

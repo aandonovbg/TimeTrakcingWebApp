@@ -1,9 +1,8 @@
-package com.example.TimeTrakcingApp.authentication;
+package com.example.TimeTrakcingApp.services;
 
+import com.example.TimeTrakcingApp.entity.MyUserDetails;
 import com.example.TimeTrakcingApp.entity.User;
-import com.example.TimeTrakcingApp.repository.EmployeeRepository;
 import com.example.TimeTrakcingApp.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,12 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
     @Autowired
-    private UserRepository userRepo;
-
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.getUserByUsername(username);
+        User user = userRepository.getUserByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found!");
         }

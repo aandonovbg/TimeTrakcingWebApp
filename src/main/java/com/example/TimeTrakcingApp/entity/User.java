@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 
 @Data
@@ -24,10 +22,23 @@ abstract public class User {
     private Long id;
     @NotBlank
     @Size(min =2,max =50)
-    @Pattern(regexp = "[a-zA-Z]+")
+    @Pattern(regexp = "^[a-zA-Z\\d\\s]+$",message = "Моля,използвайте Латиница")
     private String username;
+
     @NotBlank
+    @Size(min =3,max =50)
+    @Pattern(regexp = "[а-яА-Я\\s\\d]+",message = "Моля,използвайте Кирилица")
+    @Column(name = "employee_full_name")
+    private String fullName;
+
+    @NotBlank
+    @Email()
+    private String email;
+
+    @NotBlank
+    //@Size(min =4,max =20)
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role=Role.valueOf("EMPLOYEE");
     private boolean enabled;

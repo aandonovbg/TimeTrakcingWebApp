@@ -52,7 +52,7 @@ body, html {
 }
 
 /* Full-width input fields */
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email]{
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -80,9 +80,9 @@ input[type=text]:focus, input[type=password]:focus {
 .btn:hover {
   opacity: 1;
 }
-
-
-
+.error-message {
+  color: red;
+}
 
 
     </style>
@@ -91,7 +91,6 @@ input[type=text]:focus, input[type=password]:focus {
 <body>
 
 <img src="/img/bannerAW.png" class="img-fluid sticky-top" style="width: 100%; height: 250px;">
-
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
     <a class="navbar-brand" th:href="@{/}" style="font-size: 13px">
@@ -105,6 +104,7 @@ input[type=text]:focus, input[type=password]:focus {
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" th:href="@{/admin/employees/list}">Списък</a></li>
                 <li><a class="dropdown-item" th:href="@{/admin/employees/add}">Добавяне</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/employees/stats}">Статистика</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">
@@ -119,8 +119,8 @@ input[type=text]:focus, input[type=password]:focus {
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                aria-expanded="false">Админ</a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="http://localhost:8080/users">Списък</a></li>
-                <li><a class="dropdown-item" href="/users/add">Добавяне</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/admins/list}">Списък</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/admins/add}">Добавяне</a></li>
             </ul>
         </li>
     </ul>
@@ -162,55 +162,28 @@ input[type=text]:focus, input[type=password]:focus {
                     <label for="clientName">Име на Клиента:</label>
                     <input type="text" th:field="*{clientName}" class="form-control" id="clientName"
                            placeholder="Въведете Име на Клиента" minlength="2" maxlength="50" required>
-                    <p th:if="${#fields.hasErrors('clientName')}" th:errors="*{clientName}">Моля, използвайте
+                    <p th:if="${#fields.hasErrors('clientName')}" th:class="'error-message'" th:errors="*{clientName}">
+                        Моля, използвайте
                         Латиница</p>
                 </div>
                 <br>
                 <div class="form-group">
                     <label for="projectName">Име на Проекта:</label>
-                    <input type="text" th:field="*{projectName}" class="form-control" id="projectName" placeholder="Въведете Име на Проекта" minlength="4" maxlength="50" required>
-                    <p th:if="${#fields.hasErrors('projectName')}" th:errors="*{projectName}">Моля, използвайте Кирилица</p>
+                    <input type="text" th:field="*{projectName}" class="form-control" id="projectName"
+                           placeholder="Въведете Име на Проекта" minlength="4" maxlength="150" required>
+                    <p th:if="${#fields.hasErrors('projectName')}" th:class="'error-message'"
+                       th:errors="*{projectName}">Моля, използвайте Кирилица</p>
                 </div>
                 <br>
                 <div class="form-group">
-                    <script type="text/javascript">
-            var dateInput = document.getElementById('expirationDate');
-
-// Listen for the input event to detect when the user selects a date
-dateInput.addEventListener('input', function() {
-  // Get the selected date value as a Date object
-  var selectedDate = new Date(dateInput.valueAsNumber);
-
-  // Format the date as dd.MM.yyyy
-  var formattedDate = selectedDate.toLocaleDateString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).replace(/\//g, '.');
-
-  // Set the formatted date as the value of the input
-  dateInput.value = formattedDate;
-});
-
-                    </script>
                     <label for="expirationDate">Дата на изтичане на договора:</label><br>
-                    <input type="date" th:field="*{expirationDate}" id="expirationDate" class="form-control" required
+                    <input type="date" th:field="*{expirationDate}" id="expirationDate" name="expirationDate"
+                           class="form-control" required
                            placeholder="Въведете дата на изтичане на договора">
-                    <p th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}">Error</p>
+                    <p th:if="${#fields.hasErrors('expirationDate')}" th:class="'error-message'"
+                       th:errors="*{expirationDate}">Error</p>
                 </div>
                 <br>
-                <!--    <div class="form-group">-->
-                <!--      <label for="role">Тип:</label><br>-->
-                <!--      <select style="text-align:center;" th:field="*{role}" id="role" class="form-control">-->
-                <!--        <option-->
-                <!--                th:each="role : ${roleTypes}" th:value="${role}" th:text="${role.label}">-->
-                <!--        </option>-->
-                <!--      </select>-->
-                <!--    </div>-->
-                <!--        <div class="form-group">-->
-                <!--          <p>Активен:</p>-->
-                <!--          <input class="form-check-input" type="radio" id="yes" th:field="*{enabled}" value="1" required checked>-->
-                <!--          <label for="yes">ДА</label>-->
-                <!--          <input class="form-check-input" type="radio" id="no" th:field="*{enabled}" value="0" required>-->
-                <!--          <label for="no">НЕ</label>-->
-                <!--        </div>-->
-                <!--        <br>-->
                 <button type="submit" class="btn btn-primary">Създай</button>
             </form>
         </div>

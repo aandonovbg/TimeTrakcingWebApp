@@ -1,4 +1,4 @@
-package com.example.TimeTrakcingApp.authentication;
+package com.example.TimeTrakcingApp.entity;
 
 
 import com.example.TimeTrakcingApp.entity.User;
