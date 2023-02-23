@@ -145,8 +145,7 @@ public class EmployeeController {
         } else {
             if (statisticsDto.getWeekNumber() != null) {
                 if ((statistics.validateWeekNumber(statisticsDto.getWeekNumber()))) {
-                    System.out.println(dailyProtocolRepository.findDailyProtocolsByWeekNumber(Integer.parseInt(statisticsDto.getWeekNumber())).size());
-//                    model.addAttribute("DailyProtocolsByWeekNumber", dailyProtocolRepository.findDailyProtocolsByWeekNumber(Integer.parseInt(statisticsDto.getWeekNumber())));
+
                     int weekNumber =Integer.parseInt(statisticsDto.getWeekNumber());
                     model.addAttribute("DailyProtocolsByWeekNumber", statistics.collectProtocolsFromSpecificWeek(statistics.getMondayDate(weekNumber), statistics.getSundayDate(weekNumber)));
                     model.addAttribute("weekNumber",statisticsDto.getWeekNumber());
