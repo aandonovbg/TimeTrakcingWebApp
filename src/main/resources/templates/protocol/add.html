@@ -20,7 +20,6 @@ body, html {
   margin: 100;
   padding: 100;
   overflow: auto;
-<!--  height: 100%;-->
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -35,7 +34,7 @@ body, html {
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 100% 90%;
+  background-size: 100% 100%;
   height: 100vh;
 
 }
@@ -48,17 +47,20 @@ body, html {
   max-width: 300px;
   padding: 16px;
   background-color: white;
-
+align-items: center;
+display: flex;
+    flex-direction: column;
 }
 
 /* Full-width input fields */
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email] {
   width: 100%;
   padding: 15px;
-  margin: 5px 0 22px 0;
+  margin: 10px 0 0px 0;
   border: none;
   background: #f1f1f1;
   text-align: center;
+
 }
 
 input[type=text]:focus, input[type=password]:focus {
@@ -66,30 +68,33 @@ input[type=text]:focus, input[type=password]:focus {
   outline: none;
 }
 
-<!--/* Set a style for the submit button */-->
-<!--.btn {-->
-<!--  background-color: #04AA6D;-->
-<!--  color: white;-->
-<!--  padding: 16px 20px;-->
-<!--  border: none;-->
-<!--  cursor: pointer;-->
-<!--  width: 100%;-->
-<!--  opacity: 0.9;-->
-<!--}-->
-
 .btn:hover {
   opacity: 1;
 }
 .error-message {
   color: red;
 }
+::-webkit-input-placeholder {
+    font-size: 12px;
+  }
+
+  :-moz-placeholder {
+    font-size: 12px;
+  }
+
+  ::-moz-placeholder {
+    font-size: 12px;
+  }
+
+  :-ms-input-placeholder {
+    font-size: 12px;
+  }
     </style>
 
 </head>
 <body>
 
-<img src="/img/bannerAW.png" class="img-fluid sticky-top" style="width: 100%; height: 250px;">
-
+<img src="/img/bannerAW.png" class="img-fluid" style="width: 100%; height: 220px;">
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <ul class="navbar-nav mx-auto">
@@ -127,36 +132,41 @@ input[type=text]:focus, input[type=password]:focus {
 <div class="bg-image">
 
     <!--  CONTAINER     -->
-    <div class="container" style="max-width: 730px; margin: 0px; text-align: center">
+    <div class="container" style="max-width: 500px; margin: 0px; text-align: center; left:100px">
         <h2>Създаване на Протокол за <span th:text="${dateNow}"></span></h2>
 
-        <div class="container" align="center">
-            <form style="width:500px;text-align: center" action="#" th:action="@{/protocol/submit}" method="POST" th:object="${dailyProtocol}">
-                <input type="hidden" th:field="*{id}">
-                <div class="form-group">
-                    <label for="dropDown">Име на Клиента:</label>
-                    <select id="dropDown" th:field="*{client}">
-                        <option value="empty">----Моля Изберете----</option>
-                        <option style="text-align:center" th:each="client : ${allClients}" th:class="'error-message'" th:value="${client.id}" th:text="${client.clientName}"></option>
-                    </select>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="description">Описание на извършената дейност:</label><br>
-                    <input type="text" th:field="*{description}" id="description" name="description" class="form-control" required
-                           placeholder="Кратко описание на извършената дейност">
-                    <p th:if="${#fields.hasErrors('description')}" th:class="'error-message'" th:errors="*{description}">Моля, използвайте Кирилица</p>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="timeWorked">Отделено време:</label>
-                    <input type="text" th:field="*{timeWorked}" class="form-control" id="timeWorked" value="1" placeholder="Колко часа сте работили днес за Клиента" required>
-                    <p th:if="${#fields.hasErrors('timeWorked')}" th:class="'error-message'" th:errors="*{timeWorked}">Моля, използвайте цели числа</p>
-                </div>
-                <br>
-                <button type="submit" class="btn btn-primary">Създай</button>
-            </form>
-        </div>
+
+        <form style="width:400px;text-align: center" action="#" th:action="@{/protocol/submit}" method="POST"
+              th:object="${dailyProtocol}">
+            <input type="hidden" th:field="*{id}">
+            <div class="form-group">
+                <label for="dropDown">Име на Клиента:</label>
+                <select id="dropDown" th:field="*{client}">
+                    <option value="empty">----Моля Изберете----</option>
+                    <option style="text-align:center" th:each="client : ${allClients}" th:class="'error-message'"
+                            th:value="${client.id}" th:text="${client.clientName}"></option>
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="description">Описание на извършената дейност:</label><br>
+                <input type="text" th:field="*{description}" id="description" name="description" class="form-control"
+                       required
+                       placeholder="Кратко описание на извършената дейност">
+                <p th:if="${#fields.hasErrors('description')}" th:class="'error-message'" th:errors="*{description}">
+                    Моля, използвайте Кирилица</p>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="timeWorked">Отделено време:</label>
+                <input type="text" th:field="*{timeWorked}" class="form-control" id="timeWorked" value="1"
+                       placeholder="Колко часа сте работили днес за Клиента" required>
+                <p th:if="${#fields.hasErrors('timeWorked')}" th:class="'error-message'" th:errors="*{timeWorked}">Моля,
+                    използвайте цели числа</p>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Създай</button>
+        </form>
     </div>
 
 </div>

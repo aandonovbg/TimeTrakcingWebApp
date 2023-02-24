@@ -23,14 +23,17 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @NotBlank
     @Size(min =2,max =50)
     @Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d.,!?()-_]+")
     private String clientName;
+
     @NotBlank
     @Size(min =2,max =200)
     @Pattern(regexp = "[a-zA-Zа-яА-Я\\s\\d.,!?()-_]+")
     private String projectName;
+
     @NotBlank
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     @Column(name = "expiration_date")

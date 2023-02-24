@@ -19,34 +19,11 @@ body, html {
   margin: 100;
   padding: 100;
   overflow: scroll;
-<!--  height: 100%;-->
   font-family: Arial, Helvetica, sans-serif;
 }
 
 * {
   box-sizing: border-box;
-}
-
-.bg-image {
-  /* The image used */
-  background-image: url("/img/body-background.jpg");
-
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  height: 100vh;
-
-}
-
-/* Add styles to the form container */
-.container {
-  position: absolute;
-  left: 0;
-  margin: 20px;
-  max-width: 300px;
-  padding: 16px;
-  background-color: white;
 }
 
 /* Full-width input fields */
@@ -56,36 +33,143 @@ input[type=text], input[type=password] {
   margin: 5px 0 22px 0;
   border: none;
   background: #f1f1f1;
+  text-align: center;
 }
 
 input[type=text]:focus, input[type=password]:focus {
   background-color: #ddd;
   outline: none;
 }
+table {
+  width: 100%;
+}
 
-<!--/* Set a style for the submit button */-->
-<!--.btn {-->
-<!--  background-color: #04AA6D;-->
-<!--  color: white;-->
-<!--  padding: 16px 20px;-->
-<!--  border: none;-->
-<!--  cursor: pointer;-->
-<!--  width: 100%;-->
-<!--  opacity: 0.9;-->
-<!--}-->
+@media (max-width: 668px) {
+  table {
+    width: 100%;
+  }
+
+  td {
+    display: block;
+    width: 100%;
+  }
+}
 
 .btn:hover {
   opacity: 1;
 }
 
+.contentContainer {
+ display: table-row;
+ height: 100px;
+}
+
+.leftContainer {
+  width: 50%;
+  display: table-cell;
+  background: white;
+  text-align: center;
+}
+
+.rightContainer {
+  display: table-cell;
+  background-image: url(/img/bg-image_half_screensize.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100vh;
+}
 
     </style>
+    <script type="text/javascript">
 
+
+function filterUserName() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("filterUserName");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("employeeTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+function filterEmail() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("filterEmail");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("employeeTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+function filterFullName() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("filterFullName");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("employeeTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+function filterStatus() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("filterStatus");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("employeeTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[3];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+
+
+
+
+    </script>
 </head>
 <body>
-<img src="/img/bannerAW.png" class="img-fluid" style="width: 100%; height: 250px;">
+<img src="/img/bannerAW.png" class="img-fluid" style="width: 100%; height: 220px;">
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark" >
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand " th:href="@{/}" style="font-size: 13px">
         <img src="/img/brandAW.png" width="30" height="30" alt="">
         Management®
@@ -143,54 +227,70 @@ input[type=text]:focus, input[type=password]:focus {
         </li>
     </ul>
 </nav>
-<div class="bg-image">
-    <div class="container" style="max-width: 730px; margin: 0px; text-align: center">
-        <h2 style="text-align:center">Списък със Служители</h2>
+<div style="width: 100%; display: table;">
+    <div class="contentContainer">
 
-        <a th:href="@{/admin/employees/add}">
-            <div class="col-md-12 text-center">
-                <button
-                        class="btn btn-primary my-2 my-sm-0">Добави
-                </button>
-            </div>
-        </a>
+        <div class="leftContainer">
+            <h2 style="text-align:center">Списък със Служители</h2>
 
-        <table class="table table-striped" style="width:100px; margin:30px auto; ">
-            <thead>
-            <tr>
+            <a th:href="@{/admin/employees/add}">
+                <div class="col-md-12 text-center">
+                    <button
+                            class="btn btn-primary my-2 my-sm-0">Добави
+                    </button>
+                </div>
+            </a>
+            <table id="employeeTable" class="table table-striped" style="width:95%; margin:30px auto; ">
+                <thead>
                 <th scope="col">ID</th>
-                <th scope="col">Потребител</th>
-                <th scope="col">@Email</th>
-                <th scope="col">Име</th>
-                <th scope="col">Статус</th>
-                <th colspan="2"scope="col">Операции</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="employee:${allEmployees}">
-                <th style="text-align: center" scope="row" th:text="${employee.id}"></th>
-                <td th:text="${employee.username}"></td>
-                <td th:text="${employee.email}"></td>
-                <td th:text="${employee.fullName}"></td>
-                <td th:if="${employee.enabled}"><span>Активен</span></td>
-                <td th:unless="${employee.enabled}"><span>Деактивиран</span></td>
-                <td>
-                    <a th:href="@{/admin/employees/edit/{employeeId}(employeeId=${employee.id})}">
-                        <button
-                                class="btn btn-outline-success my-2 my-sm-0" style="padding: 1px 3px">Редактирай
-                        </button>
-                    </a>
-                </td>
-                <td>
-                    <a
-                            th:href="@{/admin/employees/delete/{employeeId}(employeeId=${employee.id})}"
-                            class="btn btn-outline-danger my-2 my-sm-0" style="padding: 1px 3px" type="submit">Изтрий
-                    </a>
+                <th colspan="1" scope="col"><input type="text" style="text-align:center" id="filterUserName"
+                                                   onkeyup="filterUserName()" placeholder="Filter User...">
+                    Потребител
+                </th>
+                <th scope="col"><input type="text" id="filterEmail" onkeyup="filterEmail()"
+                                       placeholder="Filter Email...">
+                    @Email
+                </th>
+                <th colspan="1" scope="col"><input type="text" id="filterFullName" onkeyup="filterFullName()"
+                                                   placeholder="Filter Name...">
+                    Име
+                </th>
+                <th scope="col"><input type="text" id="filterStatus" onkeyup="filterStatus()"
+                                       placeholder="Filter Status...">
+                    Статус
+                </th>
+                <th colspan="2" scope="col">Операции</th>
 
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="employee:${allEmployees}">
+                    <th style="text-align: center" scope="row" th:text="${employee.id}"></th>
+
+                    <td width="20%" th:text="${employee.username}"></td>
+                    <td th:text="${employee.email}"></td>
+                    <td width="80%" th:text="${employee.fullName}"></td>
+                    <td th:if="${employee.enabled}"><span>Активен</span></td>
+                    <td th:unless="${employee.enabled}"><span>Деактивиран</span></td>
+                    <td>
+                        <a th:href="@{/admin/employees/edit/{employeeId}(employeeId=${employee.id})}">
+                            <button
+                                    class="btn btn-outline-success my-2 my-sm-0" style="padding: 1px 3px">Редактирай
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <a
+                                th:href="@{/admin/employees/delete/{employeeId}(employeeId=${employee.id})}"
+                                class="btn btn-outline-danger my-2 my-sm-0" style="padding: 1px 3px" type="submit">Изтрий
+                        </a>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="rightContainer d-table-cell bg-image img-fluid" ></div>
     </div>
 </div>
 </body>
