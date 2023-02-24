@@ -20,7 +20,6 @@ body, html {
   margin: 100;
   padding: 100;
   overflow: auto;
-<!--  height: 100%;-->
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -35,7 +34,7 @@ body, html {
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 100% 90%;
+  background-size: 100% 100%;
   height: 100vh;
 
 }
@@ -48,17 +47,20 @@ body, html {
   max-width: 300px;
   padding: 16px;
   background-color: white;
-
+align-items: center;
+display: flex;
+    flex-direction: column;
 }
 
 /* Full-width input fields */
-input[type=text], input[type=password], input[type=email]{
+input[type=text], input[type=password], input[type=email] {
   width: 100%;
   padding: 15px;
-  margin: 5px 0 22px 0;
+  margin: 10px 0 0px 0;
   border: none;
   background: #f1f1f1;
   text-align: center;
+
 }
 
 input[type=text]:focus, input[type=password]:focus {
@@ -66,30 +68,34 @@ input[type=text]:focus, input[type=password]:focus {
   outline: none;
 }
 
-<!--/* Set a style for the submit button */-->
-<!--.btn {-->
-<!--  background-color: #04AA6D;-->
-<!--  color: white;-->
-<!--  padding: 16px 20px;-->
-<!--  border: none;-->
-<!--  cursor: pointer;-->
-<!--  width: 100%;-->
-<!--  opacity: 0.9;-->
-<!--}-->
-
 .btn:hover {
   opacity: 1;
 }
 .error-message {
   color: red;
 }
+::-webkit-input-placeholder {
+    font-size: 12px;
+  }
+
+  :-moz-placeholder {
+    font-size: 12px;
+  }
+
+  ::-moz-placeholder {
+    font-size: 12px;
+  }
+
+  :-ms-input-placeholder {
+    font-size: 12px;
+  }
 
     </style>
 
 </head>
 <body>
 
-<img src="/img/bannerAW.png" class="img-fluid sticky-top" style="width: 100%; height: 250px;">
+<img src="/img/bannerAW.png" class="img-fluid" style="width: 100%; height: 220px;">
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
     <a class="navbar-brand " th:href="@{/}" style="font-size: 13px">
@@ -151,10 +157,10 @@ input[type=text]:focus, input[type=password]:focus {
 <div class="bg-image">
 
     <!--  CONTAINER     -->
-    <div class="container" style="max-width: 400px; text-align: center">
-        <h2 align="center">Редактиране на Служител</h2>
-        <div class="container" align="center">
-            <form style="width:500px;" action="#" th:action="@{/admin/admins/update}" method="POST"
+    <div class="container" style="max-width: 500px; margin: 0px; text-align: center; left:100px">
+        <h2 align="center">Редактиране на Админ</h2>
+
+            <form style="width:400px;" action="#" th:action="@{/admin/admins/update}" method="POST"
                   th:object="${admin}">
                 <input type="hidden" th:field="*{id}">
                 <div class="form-group">

@@ -2,6 +2,7 @@ package com.example.TimeTrakcingApp.controller;
 
 import com.example.TimeTrakcingApp.dto.StatisticsDto;
 import com.example.TimeTrakcingApp.dto.UserRegisterDto;
+import com.example.TimeTrakcingApp.entity.DailyProtocol;
 import com.example.TimeTrakcingApp.entity.Employee;
 import com.example.TimeTrakcingApp.enums.Role;
 import com.example.TimeTrakcingApp.repository.DailyProtocolRepository;
@@ -10,6 +11,7 @@ import com.example.TimeTrakcingApp.services.AuthenticationService;
 import com.example.TimeTrakcingApp.services.Statistics;
 import com.example.TimeTrakcingApp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,7 +47,7 @@ public class EmployeeController {
     public String listAllEmployees(Model model) {
         getLoggedInInfo(model);
         model.addAttribute("allEmployees", employeeRepository.findAll());
-        return "admin/employees/listEmployees";
+        return "admin/employees/listEmployees";  //
     }
 
     @GetMapping("/add")
@@ -147,6 +149,8 @@ public class EmployeeController {
                 if ((statistics.validateWeekNumber(statisticsDto.getWeekNumber()))) {
 
                     int weekNumber =Integer.parseInt(statisticsDto.getWeekNumber());
+                    System.out.println("QUERY: " + dailyProtocolRepository.findAllByWeekNumber(weekNumber).size());
+                    System.out.println("NO QUERY"+statistics.collectProtocolsFromSpecificWeek(statistics.getMondayDate(weekNumber), statistics.getSundayDate(weekNumber)).size());
                     model.addAttribute("DailyProtocolsByWeekNumber", statistics.collectProtocolsFromSpecificWeek(statistics.getMondayDate(weekNumber), statistics.getSundayDate(weekNumber)));
                     model.addAttribute("weekNumber",statisticsDto.getWeekNumber());
                     model.addAttribute("sumTotalHours", statistics.sumTotalHours(statistics.getMondayDate(weekNumber), statistics.getSundayDate(weekNumber)));
